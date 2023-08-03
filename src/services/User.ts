@@ -12,7 +12,14 @@ export const createUser = async (data: User) => {
         }
 
         const response = await axios.post('/api/user', dataUser)
-        return response.data
+
+        if (response.status == 200) return response.data
+        else if (response.data.response.error == 0) {
+            throw new Error('Correo ya registrado')
+        } else {
+            throw new Error('Hubo un error')
+        }
+
     } catch (error: any) {
         throw new Error(error.message)
     }

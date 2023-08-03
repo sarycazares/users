@@ -31,15 +31,15 @@ export default function RegisterPage() {
             }
             await createUser(data)
             router.push('/login')
-        } catch {
-            setMsg('Hubo un error')
+        } catch (error: any) {
+            setMsg(error.message)
         }
     }
 
     return (
         <Box width="100%" px={10} py={5}>
             <Snackbar open={msg != ''} autoHideDuration={6000} onClose={() => setMsg('')} anchorOrigin={{ vertical: 'top', horizontal: 'right' }}>
-                <Alert severity="success" onClose={() => setMsg('')}>{msg}</Alert>
+                <Alert severity='error' onClose={() => setMsg('')}>{msg}</Alert>
             </Snackbar>
             <Container component="main" maxWidth="xs">
                 <Box

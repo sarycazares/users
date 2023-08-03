@@ -18,15 +18,30 @@ export async function POST(req: Request) {
     const cryptoPassword = await decryptString(password, process.env.NEXT_PUBLIC_CRYPTO_KEY)
     const bcryptPassword = await createHash(cryptoPassword)
 
-    const createUser = await prisma.user.create({
-        data: {
-            name,
-            email,
-            password: bcryptPassword
-        },
+    const user = await prisma.user.findUnique({
+        where: {
+            email
+        }
     })
 
-    return NextResponse.json({ createUser })
+    if (user == null) {
+        const createUser = await prisma.user.create({
+            data: {
+                name,
+                email,
+                password: bcryptPassword
+            },
+        })
+
+        return NextResponse.json({ createUser })
+    } else {
+        const response = {
+            error: 0
+        }
+        return NextResponse.json({ response })
+    }
+
+
 }
 
 export async function PUT(req: Request) {

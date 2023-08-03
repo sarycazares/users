@@ -11,3 +11,14 @@ export default function createHash(str: string): Promise<string> {
         }
     })
 }
+
+export function compareHash(str: string, hash: string): Promise<boolean> {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const result = await bcrypt.compare(str, hash)
+            resolve(result)
+        } catch (error) {
+            reject(error)
+        }
+    })
+}

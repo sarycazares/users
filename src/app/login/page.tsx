@@ -12,6 +12,7 @@ import { useRouter } from 'next/navigation'
 import Snackbar from '@mui/material/Snackbar'
 import Alert from '@mui/material/Alert'
 import { LoginUser } from '@/models/Login'
+import { M_PLUS_1 } from 'next/font/google'
 
 export default function LoginPage() {
     const router = useRouter()
@@ -28,15 +29,15 @@ export default function LoginPage() {
             }
             await loginUser(data)
             router.push('/')
-        } catch {
-            setMsg('Hubo un error')
+        } catch (error: any) {
+            setMsg(error.message)
         }
     }
 
     return (
         <Box width="100%">
             <Snackbar open={msg != ''} autoHideDuration={6000} onClose={() => setMsg('')} anchorOrigin={{ vertical: 'top', horizontal: 'right' }}>
-                <Alert severity="success" onClose={() => setMsg('')}>{msg}</Alert>
+                <Alert severity='error' onClose={() => setMsg('')}>{msg}</Alert>
             </Snackbar>
             <Grid container component="main" sx={{ height: '100vh' }}>
                 <Grid
